@@ -1,6 +1,7 @@
 # C.1.2 — Aggiornamento della significatività e dei rischi
 
 > Parte 3 — Verifica del bilancio d’esercizio · 3.A — Apertura della fase di bilancio
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

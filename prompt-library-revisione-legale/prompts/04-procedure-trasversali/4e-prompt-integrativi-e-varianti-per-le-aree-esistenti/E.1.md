@@ -1,6 +1,7 @@
 # E.1 — Analisi del settore senza benchmark inventati (variante di A.2.2)
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.E — Prompt integrativi e varianti per le aree esistenti
+> **Fase AuditFlow:** Accettazione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

@@ -1,6 +1,7 @@
 # D.4.3 — Disegno delle procedure di validità con approccio di sostanza
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.D — Specificità delle nano-imprese e delle imprese di minori dimensioni
+> **Fase AuditFlow:** Pianificazione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

@@ -1,6 +1,7 @@
 # C.1.1 — Conformità del fascicolo di bilancio
 
 > Parte 3 — Verifica del bilancio d’esercizio · 3.A — Apertura della fase di bilancio
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

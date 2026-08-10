@@ -1,6 +1,7 @@
 # D.2.2 — Dati comparativi e rettifiche di esercizi precedenti
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.B — Situazioni particolari dell’incarico
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

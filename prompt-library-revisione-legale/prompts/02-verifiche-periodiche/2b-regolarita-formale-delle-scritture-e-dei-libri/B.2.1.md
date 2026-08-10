@@ -1,6 +1,7 @@
 # B.2.1 — Libri obbligatori e libri sociali
 
 > Parte 2 — Verifiche periodiche sulla regolare tenuta della contabilità · 2.B — Regolarità formale delle scritture e dei libri
+> **Fase AuditFlow:** Verifiche periodiche — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

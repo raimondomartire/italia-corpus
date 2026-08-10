@@ -1,6 +1,7 @@
 # A.5.1 — Procedure di analisi comparativa preliminari
 
 > Parte 1 — Accettazione dell’incarico, indipendenza e valutazione del rischio · 1.E — Identificazione e valutazione dei rischi
+> **Fase AuditFlow:** Pianificazione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

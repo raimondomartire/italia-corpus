@@ -1,6 +1,7 @@
 # F.2 — Rilevazione dei ricavi (OIC 34)
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.F — Prompt di supporto contabile per voce (OIC)
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

@@ -1,6 +1,7 @@
 # A.4.2 — Mappatura dei processi rilevanti
 
 > Parte 1 — Accettazione dell’incarico, indipendenza e valutazione del rischio · 1.D — Comprensione del sistema di controllo interno
+> **Fase AuditFlow:** Pianificazione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

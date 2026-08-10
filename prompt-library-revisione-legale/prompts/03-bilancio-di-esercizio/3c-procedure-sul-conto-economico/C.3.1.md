@@ -1,6 +1,7 @@
 # C.3.1 — Ricavi
 
 > Parte 3 — Verifica del bilancio d’esercizio · 3.C — Procedure sul conto economico
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

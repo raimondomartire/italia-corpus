@@ -1,6 +1,7 @@
 # C.4.11 — Comunicazione finale agli organi di governance
 
 > Parte 3 — Verifica del bilancio d’esercizio · 3.D — Aree di giudizio e conclusione
+> **Fase AuditFlow:** Chiusura e stampa fascicolo — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

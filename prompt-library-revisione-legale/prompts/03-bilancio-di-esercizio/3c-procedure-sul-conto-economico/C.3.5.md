@@ -1,6 +1,7 @@
 # C.3.5 — Costi per servizi e per godimento di beni di terzi
 
 > Parte 3 — Verifica del bilancio d’esercizio · 3.C — Procedure sul conto economico
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

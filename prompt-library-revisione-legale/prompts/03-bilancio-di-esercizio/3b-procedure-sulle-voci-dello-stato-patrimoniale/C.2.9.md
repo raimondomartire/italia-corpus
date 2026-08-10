@@ -1,6 +1,7 @@
 # C.2.9 — Trattamento di fine rapporto
 
 > Parte 3 — Verifica del bilancio d’esercizio · 3.B — Procedure sulle voci dello stato patrimoniale
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

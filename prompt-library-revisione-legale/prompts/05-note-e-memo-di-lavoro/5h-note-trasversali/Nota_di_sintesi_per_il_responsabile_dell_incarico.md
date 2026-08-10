@@ -1,6 +1,7 @@
 # Nota di sintesi per il responsabile dell’incarico — Nota di sintesi per il responsabile dell’incarico
 
 > Parte 5 — Redazione delle note e dei memo di lavoro · 5.H — Note trasversali
+> **Fase AuditFlow:** Trasversale (tutte le fasi) — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

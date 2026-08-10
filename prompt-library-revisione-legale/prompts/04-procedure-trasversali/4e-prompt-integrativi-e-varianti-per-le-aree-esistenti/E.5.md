@@ -1,6 +1,7 @@
 # E.5 — Adempimenti tributari: riscontro dei versamenti e scadenzario (variante di B.3.6)
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.E — Prompt integrativi e varianti per le aree esistenti
+> **Fase AuditFlow:** Verifiche periodiche — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

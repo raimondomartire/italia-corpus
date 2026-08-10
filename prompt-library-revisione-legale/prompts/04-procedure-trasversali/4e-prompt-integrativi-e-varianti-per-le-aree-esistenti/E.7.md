@@ -1,6 +1,7 @@
 # E.7 — Continuità aziendale: scadenzario e stress delle assunzioni (variante di C.4.2)
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.E — Prompt integrativi e varianti per le aree esistenti
+> **Fase AuditFlow:** Completamento — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

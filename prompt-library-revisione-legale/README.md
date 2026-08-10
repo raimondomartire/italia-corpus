@@ -21,7 +21,8 @@ prompt-library-revisione-legale/
 │   ├── 06-glossario.md
 │   ├── 07-documentazione-standard-per-fase.md
 │   ├── 08-regole-di-verifica-per-tipologia-di-output.md
-│   └── 09-modulistica.md
+│   ├── 09-modulistica.md
+│   └── 10-mappatura-auditflow.md  ← quale scheda usare in quale fase/sotto-fase di AuditFlow
 └── prompts/                       ← le 177 schede, un file .md per scheda
     ├── 01-accettazione-incarico-e-rischio/     (19 schede — 1.A–1.E)
     ├── 02-verifiche-periodiche/                (17 schede — 2.A–2.D)
@@ -32,11 +33,16 @@ prompt-library-revisione-legale/
 
 Ogni cartella di Parte è suddivisa in sottocartelle per Fase (es. `1a-controllo-preliminare-di-conformita-documentale`), rispecchiando la struttura originaria del manuale, per rendere prevedibile la posizione di ogni scheda anche navigando da riga di comando o su GitHub.
 
+## Mappatura con AuditFlow
+
+Ogni scheda è taggata con la **fase AuditFlow** in cui va usata (Accettazione, Pianificazione, Esecuzione, Completamento, Verifiche periodiche, Chiusura, o Trasversale), ricavata confrontando la struttura della libreria con le fasi/sotto-fasi definite nel codice sorgente di AuditFlow. Il tag è visibile come badge in cima a ogni file `.md`, nella lista e nel dettaglio dell'app master, ed è filtrabile con un click. La logica completa della mappatura — sotto-fase per sotto-fase, coi casi in cui AuditFlow è più granulare della libreria (es. le 10 lettere di circolarizzazione A02-01…A02-10, le 6 varianti di giudizio A03-01…A03-06) — è in [`riferimenti/10-mappatura-auditflow.md`](riferimenti/10-mappatura-auditflow.md).
+
 ## App master
 
 Apri [`app/index.html`](app/index.html) in un browser (nessuna installazione, nessuna dipendenza esterna, funziona anche offline aprendo il file direttamente). Consente di:
 
 - **Navigare** l'albero Parte → Fase nella barra laterale;
+- **Filtrare per fase AuditFlow** (Accettazione, Pianificazione, Esecuzione, Completamento, Verifiche periodiche, Chiusura, Trasversale) con un click sui chip dedicati — utile per trovare al volo i prompt pertinenti a dove sei nel fascicolo;
 - **Cercare** per codice, titolo o contenuto del prompt;
 - **Aprire** una scheda e vedere documenti da allegare, output prodotto, prompt pronto all'uso, output atteso e verifica obbligatoria del revisore;
 - **Spuntare i documenti effettivamente disponibili** per l'istanza in corso: il prompt si rigenera **dinamicamente**, aggiungendo per i documenti non disponibili l'istruzione esplicita a dichiarare la lacuna invece di ipotizzarla e, se il documento è essenziale, a trattare il caso come blocco per documentazione non conforme (con richiamo alla procedura in `riferimenti/02`, § II.3, e al modulo di richiesta in `riferimenti/09`, § D.5) — la scheda "Cosa succede se manca un documento?" nel pannello di dettaglio riassume la regola;

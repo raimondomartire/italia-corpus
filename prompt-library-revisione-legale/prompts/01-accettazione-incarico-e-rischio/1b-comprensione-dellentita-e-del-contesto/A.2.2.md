@@ -1,6 +1,7 @@
 # A.2.2 — Analisi del settore e dei fattori esterni
 
 > Parte 1 — Accettazione dell’incarico, indipendenza e valutazione del rischio · 1.B — Comprensione dell’entità e del contesto
+> **Fase AuditFlow:** Accettazione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

@@ -1,6 +1,7 @@
 # E.4 — Ciclo attivo: test esteso all'universo su fatture elettroniche (variante di B.3.2)
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.E — Prompt integrativi e varianti per le aree esistenti
+> **Fase AuditFlow:** Verifiche periodiche — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

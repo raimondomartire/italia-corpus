@@ -1,6 +1,7 @@
 # D.2.6 — Utilizzo del lavoro dell’internal audit
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.B — Situazioni particolari dell’incarico
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

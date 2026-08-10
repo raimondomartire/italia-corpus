@@ -1,6 +1,7 @@
 # A.5.2 — Identificazione dei rischi di errore significativo
 
 > Parte 1 — Accettazione dell’incarico, indipendenza e valutazione del rischio · 1.E — Identificazione e valutazione dei rischi
+> **Fase AuditFlow:** Pianificazione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

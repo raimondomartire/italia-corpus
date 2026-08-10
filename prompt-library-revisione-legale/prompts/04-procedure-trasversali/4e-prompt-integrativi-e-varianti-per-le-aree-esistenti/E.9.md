@@ -1,6 +1,7 @@
 # E.9 — Conferme esterne: bozza delle lettere e piano di follow-up (variante di D.1.4)
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.E — Prompt integrativi e varianti per le aree esistenti
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

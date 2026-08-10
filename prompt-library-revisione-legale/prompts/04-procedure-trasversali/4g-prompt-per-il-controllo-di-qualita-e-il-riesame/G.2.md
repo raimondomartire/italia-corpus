@@ -1,6 +1,7 @@
 # G.2 — Completezza del fascicolo in vista del riesame
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.G — Prompt per il controllo di qualità e il riesame
+> **Fase AuditFlow:** Completamento — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

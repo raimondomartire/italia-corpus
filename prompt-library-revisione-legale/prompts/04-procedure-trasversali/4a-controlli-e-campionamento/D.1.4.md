@@ -1,6 +1,7 @@
 # D.1.4 — Gestione delle conferme esterne
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.A — Controlli e campionamento
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

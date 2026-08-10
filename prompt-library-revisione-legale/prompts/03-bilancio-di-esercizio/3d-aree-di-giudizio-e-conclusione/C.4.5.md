@@ -1,6 +1,7 @@
 # C.4.5 — Relazione sulla gestione
 
 > Parte 3 — Verifica del bilancio d’esercizio · 3.D — Aree di giudizio e conclusione
+> **Fase AuditFlow:** Completamento — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

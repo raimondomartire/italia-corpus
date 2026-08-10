@@ -1,6 +1,7 @@
 # A.1.1 — Inventario e conformità del fascicolo di accettazione
 
 > Parte 1 — Accettazione dell’incarico, indipendenza e valutazione del rischio · 1.A — Controllo preliminare di conformità documentale
+> **Fase AuditFlow:** Accettazione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

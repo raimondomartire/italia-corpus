@@ -1,6 +1,7 @@
 # F.4 — Ammortamenti e vita utile (OIC 16 e OIC 24)
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.F — Prompt di supporto contabile per voce (OIC)
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

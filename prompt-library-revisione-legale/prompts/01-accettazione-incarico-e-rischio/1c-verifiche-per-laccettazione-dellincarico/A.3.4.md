@@ -1,6 +1,7 @@
 # A.3.4 — Adeguatezza di competenze e risorse
 
 > Parte 1 — Accettazione dell’incarico, indipendenza e valutazione del rischio · 1.C — Verifiche per l’accettazione dell’incarico
+> **Fase AuditFlow:** Accettazione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

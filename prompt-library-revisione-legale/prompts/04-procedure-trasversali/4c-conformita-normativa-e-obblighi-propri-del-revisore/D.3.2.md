@@ -1,6 +1,7 @@
 # D.3.2 — Adempimenti antiriciclaggio del revisore
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.C — Conformità normativa e obblighi propri del revisore
+> **Fase AuditFlow:** Completamento — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

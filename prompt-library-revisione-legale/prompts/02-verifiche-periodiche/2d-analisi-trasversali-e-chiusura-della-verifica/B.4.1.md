@@ -1,6 +1,7 @@
 # B.4.1 — Analisi comparativa di periodo
 
 > Parte 2 — Verifiche periodiche sulla regolare tenuta della contabilità · 2.D — Analisi trasversali e chiusura della verifica
+> **Fase AuditFlow:** Verifiche periodiche — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

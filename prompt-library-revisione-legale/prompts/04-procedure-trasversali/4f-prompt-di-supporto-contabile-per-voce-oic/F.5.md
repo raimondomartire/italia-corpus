@@ -1,6 +1,7 @@
 # F.5 — Fondi per rischi e oneri e TFR (OIC 31)
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.F — Prompt di supporto contabile per voce (OIC)
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

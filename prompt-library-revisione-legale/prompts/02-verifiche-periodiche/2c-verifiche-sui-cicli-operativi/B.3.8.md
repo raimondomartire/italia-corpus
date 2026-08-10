@@ -1,6 +1,7 @@
 # B.3.8 — Finanziamenti, garanzie e impegni
 
 > Parte 2 — Verifiche periodiche sulla regolare tenuta della contabilità · 2.C — Verifiche sui cicli operativi
+> **Fase AuditFlow:** Verifiche periodiche — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 

@@ -1,6 +1,7 @@
 # D.2.8 — Servizi affidati a fornitori esterni
 
 > Parte 4 — Procedure trasversali e situazioni particolari · 4.B — Situazioni particolari dell’incarico
+> **Fase AuditFlow:** Esecuzione — vedi [`riferimenti/10-mappatura-auditflow.md`](../../../riferimenti/10-mappatura-auditflow.md)
 
 ## Documenti da allegare
 
