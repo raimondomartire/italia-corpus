@@ -39,9 +39,13 @@ Apri [`app/index.html`](app/index.html) in un browser (nessuna installazione, ne
 - **Navigare** l'albero Parte → Fase nella barra laterale;
 - **Cercare** per codice, titolo o contenuto del prompt;
 - **Aprire** una scheda e vedere documenti da allegare, output prodotto, prompt pronto all'uso, output atteso e verifica obbligatoria del revisore;
-- **Copiare** il prompt espanso negli appunti o **esportarlo** come file `.txt`;
+- **Spuntare i documenti effettivamente disponibili** per l'istanza in corso: il prompt si rigenera **dinamicamente**, aggiungendo per i documenti non disponibili l'istruzione esplicita a dichiarare la lacuna invece di ipotizzarla e, se il documento è essenziale, a trattare il caso come blocco per documentazione non conforme (con richiamo alla procedura in `riferimenti/02`, § II.3, e al modulo di richiesta in `riferimenti/09`, § D.5) — la scheda "Cosa succede se manca un documento?" nel pannello di dettaglio riassume la regola;
+- **Modificare liberamente il testo del prompt** nell'editor e **salvarlo** per quella scheda (persistito nel browser); un pallino ✎ nella lista segnala le schede con una versione personalizzata salvata, e il pulsante "Ripristina generato" torna in qualunque momento alla versione prodotta dalla checklist documenti;
+- **Copiare** il prompt (nella versione attualmente mostrata, generata o personalizzata) negli appunti o **esportarlo** come file `.txt`;
 - **Salvare preferiti** e **annotazioni personali** per scheda (salvati localmente nel browser, non condivisi né inviati altrove);
 - Vedere l'elenco delle schede **usate di recente**.
+
+Tutte le personalizzazioni (documenti spuntati, testo del prompt modificato, preferiti, note) restano **solo nel browser locale** (localStorage): non modificano i file `.md` sorgente e non vengono condivise tra utenti o dispositivi diversi.
 
 L'app legge i dati da `app/prompts-data.js`, generato automaticamente dal contenuto di `prompts/`. Se una scheda `.md` viene modificata a mano, rigenerare questo file (vedi § Manutenzione) per tenerlo allineato.
 

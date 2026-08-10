@@ -58,15 +58,32 @@
   .detail .box{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;box-shadow:var(--shadow);}
   .detail ul{margin:0;padding-left:18px;}
   pre.prompt{background:var(--code-bg);color:var(--code-text);padding:14px 16px;border-radius:10px;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.55;margin:0;max-height:520px;overflow-y:auto;}
-  .toolbar{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
+  textarea.editor{width:100%;min-height:340px;background:var(--code-bg);color:var(--code-text);padding:14px 16px;border-radius:10px;border:1px solid var(--border);white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.55;resize:vertical;}
+  textarea.editor.dirty{border-color:#e0a800;box-shadow:0 0 0 2px rgba(224,168,0,.25);}
+  .toolbar{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;align-items:center;}
   button.btn{padding:6px 12px;border-radius:7px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:12px;cursor:pointer;}
   button.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+  button.btn.warn{background:#e0a800;border-color:#e0a800;color:#1c2430;}
   button.btn:active{transform:translateY(1px);}
+  button.btn:disabled{opacity:.45;cursor:default;}
   textarea.note{width:100%;min-height:70px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);padding:8px 10px;font-size:12.5px;font-family:inherit;resize:vertical;}
   .empty{padding:60px 20px;text-align:center;color:var(--muted);}
   .badge{display:inline-block;padding:2px 8px;border-radius:99px;background:var(--tag-bg);color:var(--muted);font-size:11px;margin-right:6px;}
+  .badge.dirty{background:#fff1cc;color:#7a5b00;}
+  .badge.custom{background:var(--accent-weak);color:var(--accent);}
   .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:8px;font-size:12.5px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;}
   .toast.show{opacity:1;}
+  .doc-checklist{display:flex;flex-direction:column;gap:6px;}
+  .doc-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;}
+  .doc-item input{margin-top:3px;}
+  .doc-item.missing label{color:var(--danger);text-decoration:line-through;text-decoration-color:rgba(192,57,43,.5);}
+  .doc-count{font-size:11.5px;color:var(--muted);margin-bottom:6px;}
+  .info-box{background:var(--accent-weak);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--text);}
+  .warn-banner{background:#fdecea;border:1px solid #f2b8b5;color:#7a2119;border-radius:10px;padding:10px 14px;font-size:12.5px;margin-top:10px;}
+  @media (prefers-color-scheme: dark){
+    .warn-banner{background:#3a1a17;border-color:#5c2a24;color:#f3b3ac;}
+  }
+  .card .edit-dot{color:#e0a800;margin-right:2px;}
   ::-webkit-scrollbar{width:9px;height:9px;}
   ::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px;}
 </style>
@@ -106,6 +123,43 @@
   var LS_FAV = 'prl_favorites';
   var LS_NOTES = 'prl_notes';
   var LS_RECENT = 'prl_recent';
+  var LS_STATE = 'prl_prompt_state'; // per scheda: { docStates: {doc:bool}, customText: string|null }
+
+  var VINCOLI_STANDARD = "Opera esclusivamente sul fascicolo di questa società e di questo team. Basa ogni affermazione solo sui documenti forniti, citando per ciascuna il documento di provenienza. Se un'informazione necessaria non è presente, dichiarala come lacuna: non colmarla con ipotesi. Non esprimere conclusioni di revisione, giudizi di adeguatezza o valutazioni di ragionevolezza.";
+  var ANTI_ALLUCINAZIONE = "Non citare numeri di paragrafo di principi di revisione o contabili se non sei certo. Se un'informazione ti manca, dichiaralo esplicitamente invece di ipotizzarla. Distingui chiaramente ciò che deriva dal testo che ti ho fornito da ciò che aggiungi tu.";
+  var GESTIONE_MANCANTI = "Se uno dei documenti elencati sopra come non disponibili in questa istanza è necessario per un punto della richiesta, non completare quel punto: dichiara esplicitamente quale documento manca e quale parte dell'analisi non puoi svolgere, senza sostituirlo con dati plausibili o conoscenze generali. Se l'assenza riguarda un documento indispensabile all'intera procedura, trattala come blocco per documentazione non conforme: segnalalo e indica cosa richiedere formalmente alla società prima di proseguire (vedi riferimenti/02, § II.3).";
+
+  function loadPromptState(){ try { return JSON.parse(localStorage.getItem(LS_STATE) || '{}'); } catch(e){ return {}; } }
+  function savePromptState(s){ localStorage.setItem(LS_STATE, JSON.stringify(s)); }
+  var promptState = loadPromptState();
+
+  function getEntry(id){
+    return promptState[id] || { docStates: {}, customText: null };
+  }
+  function setEntry(id, entry){
+    promptState[id] = entry;
+    savePromptState(promptState);
+  }
+
+  // Costruisce il testo del prompt in base allo stato dei documenti (dinamico:
+  // riflette quali documenti sono effettivamente disponibili in questa istanza).
+  function buildPromptText(p, docStates){
+    var items = p.documenti_items || [];
+    var available = items.filter(function(d){ return docStates[d] !== false; });
+    var missing = items.filter(function(d){ return docStates[d] === false; });
+    var parts = [];
+    parts.push('Ruolo e contesto: ' + p.ruolo_contesto);
+    if(available.length) parts.push('Documenti disponibili in questa istanza: ' + available.join('; ') + '.');
+    if(missing.length) parts.push('Documenti NON disponibili in questa istanza (dichiarali come lacuna, non ipotizzarli): ' + missing.join('; ') + '.');
+    parts.push('');
+    parts.push(p.prompt_originale);
+    parts.push('');
+    parts.push('Vincoli permanenti: ' + VINCOLI_STANDARD);
+    parts.push('Vincolo anti-allucinazione: ' + ANTI_ALLUCINAZIONE);
+    parts.push('Gestione documentazione mancante: ' + GESTIONE_MANCANTI);
+    if(p.output_atteso) parts.push('Formato atteso: ' + p.output_atteso);
+    return parts.join('\n');
+  }
 
   var state = {
     selectedParte: null,
@@ -227,8 +281,9 @@
     items.forEach(function(p){
       var el = document.createElement('div'); el.className = 'card' + (state.activeId===p.id ? ' active':'');
       var isFav = favorites.has(p.id);
+      var hasCustom = !!(promptState[p.id] && promptState[p.id].customText);
       el.innerHTML = '<span class="fav'+(isFav?' on':'')+'" data-id="'+p.id+'">'+(isFav?'★':'☆')+'</span>'+
-        '<div class="code">'+escapeHtml(p.codice)+'</div>'+
+        '<div class="code">'+(hasCustom?'<span class="edit-dot" title="Prompt personalizzato">✎</span>':'')+escapeHtml(p.codice)+'</div>'+
         '<div class="nome">'+escapeHtml(p.nome)+'</div>'+
         '<div class="fase">'+escapeHtml(p.fase)+'</div>';
       el.addEventListener('click', function(e){
@@ -268,33 +323,111 @@
     var p = PROMPTS_DATA.find(function(x){ return x.id === state.activeId; });
     if(!p){ detailEl.innerHTML = '<div class="empty">Seleziona una scheda dall\'elenco a sinistra.</div>'; return; }
     var isFav = favorites.has(p.id);
-    var docs = (p.documenti||[]).map(function(d){ return '<li>'+escapeHtml(d)+'</li>'; }).join('') || '<li><em>Nessuno specifico indicato</em></li>';
+    var entry = getEntry(p.id);
+    var items = p.documenti_items || [];
+    var generated = buildPromptText(p, entry.docStates || {});
+    var effectiveText = (entry.customText != null) ? entry.customText : generated;
+    var missingCount = items.filter(function(d){ return (entry.docStates||{})[d] === false; }).length;
+
+    var docsChecklist = items.length ? items.map(function(d, idx){
+      var checked = (entry.docStates||{})[d] !== false;
+      return '<div class="doc-item'+(checked?'':' missing')+'"><input type="checkbox" id="doc'+idx+'" data-doc="'+encodeURIComponent(d)+'"'+(checked?' checked':'')+'>'+
+        '<label for="doc'+idx+'">'+escapeHtml(d)+'</label></div>';
+    }).join('') : '<div class="doc-item"><em>Nessun documento specifico indicato nella scheda originale</em></div>';
+
     detailEl.innerHTML =
-      '<div class="toolbar">'+
-        '<button class="btn primary" id="copyBtn">📋 Copia prompt</button>'+
-        '<button class="btn" id="downloadBtn">⬇️ Esporta .txt</button>'+
-        '<button class="btn" id="favBtn">'+(isFav?'★ Rimuovi dai preferiti':'☆ Aggiungi ai preferiti')+'</button>'+
-      '</div>'+
       '<h2>'+escapeHtml(p.codice)+' — '+escapeHtml(p.nome)+'</h2>'+
       '<div class="breadcrumb">'+escapeHtml(p.parte)+' · '+escapeHtml(p.fase)+'</div>'+
-      '<section><h3>Documenti da allegare</h3><div class="box"><ul>'+docs+'</ul></div></section>'+
+
+      '<section><h3>Documenti da allegare a questa istanza</h3>'+
+        '<div class="box">'+
+          '<div class="doc-count">Spunta i documenti effettivamente disponibili. Deselezionare un documento aggiorna dinamicamente il prompt sotto e spiega all\'agente come comportarsi in sua assenza.</div>'+
+          '<div class="doc-checklist" id="docChecklist">'+docsChecklist+'</div>'+
+          (missingCount ? '<div class="warn-banner" id="missingWarn">⚠️ '+missingCount+' document'+(missingCount===1?'o':'i')+' segnalat'+(missingCount===1?'o':'i')+' come non disponibil'+(missingCount===1?'e':'i')+'. Il prompt qui sotto istruisce l\'agente a dichiarare la lacuna e a non procedere sulle parti che ne dipendono; se il documento è essenziale per l\'intera procedura, va trattato come blocco per documentazione non conforme (richiesta formale alla società, vedi Allegato D.5).</div>' : '')+
+        '</div>'+
+      '</section>'+
+
+      '<section><h3>Cosa succede se manca un documento?</h3>'+
+        '<div class="info-box">Per policy dello Studio l\'agente <strong>non deve mai colmare una lacuna documentale con un\'ipotesi</strong>. Se un documento richiesto non è allegato: (1) l\'agente lo dichiara esplicitamente come informazione mancante e non svolge la parte di analisi che ne dipende; (2) se il documento è indispensabile all\'intera procedura, il caso è trattato come <em>blocco per documentazione non conforme</em> — il revisore verifica che non sia un falso positivo e lo richiede formalmente alla società; (3) se la documentazione non viene fornita, si valuta se ricorre una limitazione alle procedure di revisione. Dettagli in <code>riferimenti/02-configurazione-agente-e-limiti.md</code> (§ II.3) e modulo di richiesta in <code>riferimenti/09-modulistica.md</code> (§ D.5).</div>'+
+      '</section>'+
+
       '<section><h3>Carta di lavoro / output prodotto</h3><div class="box">'+escapeHtml(p.output_prodotto||'—')+'</div></section>'+
-      '<section><h3>Prompt (versione espansa, pronta all\'uso)</h3><pre class="prompt" id="promptText">'+escapeHtml(p.prompt)+'</pre></section>'+
+
+      '<section><h3>Prompt (modificabile — rigenerato dinamicamente dalla checklist sopra)</h3>'+
+        '<div class="toolbar">'+
+          '<button class="btn primary" id="copyBtn">📋 Copia prompt</button>'+
+          '<button class="btn" id="downloadBtn">⬇️ Esporta .txt</button>'+
+          '<button class="btn" id="saveBtn">💾 Salva modifiche</button>'+
+          '<button class="btn" id="resetBtn">↺ Ripristina generato</button>'+
+          '<span class="badge dirty" id="dirtyBadge" style="display:none;">● modifiche non salvate</span>'+
+          '<span class="badge custom" id="customBadge" style="display:none;">✎ versione personalizzata salvata</span>'+
+        '</div>'+
+        '<textarea class="editor" id="promptEditor" spellcheck="false">'+escapeHtml(effectiveText)+'</textarea>'+
+      '</section>'+
+
       '<section><h3>Output atteso</h3><div class="box">'+escapeHtml(p.output_atteso||'—')+'</div></section>'+
       '<section><h3>Verifica del revisore (obbligatoria prima dell\'uso)</h3><div class="box">'+escapeHtml(p.verifica||'—')+'</div></section>'+
-      '<section><h3>Note interne (salvate solo su questo browser)</h3><textarea class="note" id="noteBox" placeholder="Annotazioni, personalizzazioni ricorrenti, esiti di utilizzo…">'+escapeHtml(notes[p.id]||'')+'</textarea></section>';
+      '<section><h3>Note interne (salvate solo su questo browser)</h3><textarea class="note" id="noteBox" placeholder="Annotazioni, personalizzazioni ricorrenti, esiti di utilizzo…">'+escapeHtml(notes[p.id]||'')+'</textarea></section>'+
+      '<div class="toolbar" style="margin-top:-8px;"><button class="btn" id="favBtn">'+(isFav?'★ Rimuovi dai preferiti':'☆ Aggiungi ai preferiti')+'</button></div>';
 
-    document.getElementById('copyBtn').addEventListener('click', function(){
-      copyText(p.prompt);
-    });
+    var editor = document.getElementById('promptEditor');
+    var dirtyBadge = document.getElementById('dirtyBadge');
+    var customBadge = document.getElementById('customBadge');
+    var saveBtn = document.getElementById('saveBtn');
+    var resetBtn = document.getElementById('resetBtn');
+
+    function refreshBadges(){
+      var isDirty = editor.value !== ((entry.customText != null) ? entry.customText : generated);
+      dirtyBadge.style.display = isDirty ? '' : 'none';
+      customBadge.style.display = (!isDirty && entry.customText != null) ? '' : 'none';
+      editor.classList.toggle('dirty', isDirty);
+      saveBtn.disabled = !isDirty;
+      resetBtn.disabled = (entry.customText == null && !isDirty);
+    }
+    refreshBadges();
+
+    editor.addEventListener('input', refreshBadges);
+
+    document.getElementById('copyBtn').addEventListener('click', function(){ copyText(editor.value); });
     document.getElementById('downloadBtn').addEventListener('click', function(){
-      downloadText(p.codice.replace(/[^\w.-]/g,'_')+'.txt', p.prompt);
+      downloadText(p.codice.replace(/[^\w.-]/g,'_')+'.txt', editor.value);
     });
-    document.getElementById('favBtn').addEventListener('click', function(){
-      if(favorites.has(p.id)) favorites.delete(p.id); else favorites.add(p.id);
-      saveSet(LS_FAV, favorites);
-      renderList(); renderDetail(); updateCounts();
+    saveBtn.addEventListener('click', function(){
+      entry.customText = editor.value;
+      setEntry(p.id, entry);
+      renderList();
+      renderDetail();
+      toast('Prompt salvato per questa scheda');
     });
+    resetBtn.addEventListener('click', function(){
+      entry.customText = null;
+      setEntry(p.id, entry);
+      renderList();
+      renderDetail();
+      toast('Prompt ripristinato alla versione generata');
+    });
+
+    // checklist documenti: aggiorna lo stato e rigenera dinamicamente il prompt
+    items.forEach(function(d, idx){
+      var cb = document.getElementById('doc'+idx);
+      if(!cb) return;
+      cb.addEventListener('change', function(){
+        entry.docStates = entry.docStates || {};
+        entry.docStates[d] = cb.checked;
+        var hasUnsavedManualEdit = editor.value !== generated && entry.customText == null;
+        if(hasUnsavedManualEdit){
+          if(!confirm('Il prompt è stato modificato manualmente e non ancora salvato. Rigenerarlo in base ai documenti selezionati? Le modifiche non salvate andranno perse.')){
+            cb.checked = !cb.checked; // annulla la spunta
+            entry.docStates[d] = cb.checked;
+            return;
+          }
+        }
+        setEntry(p.id, entry);
+        renderList();
+        renderDetail();
+      });
+    });
+
     var noteBox = document.getElementById('noteBox');
     var saveTimer;
     noteBox.addEventListener('input', function(){
@@ -304,6 +437,12 @@
         saveNotes(notes);
         toast('Nota salvata');
       }, 500);
+    });
+
+    document.getElementById('favBtn').addEventListener('click', function(){
+      if(favorites.has(p.id)) favorites.delete(p.id); else favorites.add(p.id);
+      saveSet(LS_FAV, favorites);
+      renderList(); renderDetail(); updateCounts();
     });
   }
 
