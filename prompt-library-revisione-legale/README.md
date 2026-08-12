@@ -23,7 +23,8 @@ prompt-library-revisione-legale/
 │   ├── 08-regole-di-verifica-per-tipologia-di-output.md
 │   ├── 09-modulistica.md
 │   ├── 10-mappatura-auditflow.md  ← quale scheda usare in quale fase/sotto-fase di AuditFlow
-│   └── 11-playbook-operativo-per-fase.md  ← in che sequenza usarle, cosa attenzionare, fase per fase
+│   ├── 11-playbook-operativo-per-fase.md  ← in che sequenza usarle, cosa attenzionare, fase per fase
+│   └── 12-integrazione-auditflow-implementata.md  ← l'integrazione software effettivamente scritta in AuditFlow
 └── prompts/                       ← le 177 schede, un file .md per scheda
     ├── 01-accettazione-incarico-e-rischio/     (19 schede — 1.A–1.E)
     ├── 02-verifiche-periodiche/                (17 schede — 2.A–2.D)
@@ -37,6 +38,8 @@ Ogni cartella di Parte è suddivisa in sottocartelle per Fase (es. `1a-controllo
 ## Mappatura con AuditFlow
 
 Ogni scheda è taggata con la **fase AuditFlow** in cui va usata (Accettazione, Pianificazione, Esecuzione, Completamento, Verifiche periodiche, Chiusura, o Trasversale), ricavata confrontando la struttura della libreria con le fasi/sotto-fasi definite nel codice sorgente di AuditFlow. Il tag è visibile come badge in cima a ogni file `.md`, nella lista e nel dettaglio dell'app master, ed è filtrabile con un click. La logica completa della mappatura — sotto-fase per sotto-fase, coi casi in cui AuditFlow è più granulare della libreria (es. le 10 lettere di circolarizzazione A02-01…A02-10, le 6 varianti di giudizio A03-01…A03-06) — è in [`riferimenti/10-mappatura-auditflow.md`](riferimenti/10-mappatura-auditflow.md).
+
+La libreria è stata anche **integrata direttamente nel codice di AuditFlow** (branch `feat/libreria-prompt-revisione-legale`): un nuovo endpoint la rende interrogabile per fase o per codice carta, un pannello "Prompt AI" in Smart Audit Box la mostra sulla carta aperta con un'azione per richiedere i documenti mancanti, e il KPI "documenti mancanti" del Document Manager — che aveva un bug e contava sempre zero — è stato corretto. Dettagli completi, file per file, in [`riferimenti/12-integrazione-auditflow-implementata.md`](riferimenti/12-integrazione-auditflow-implementata.md).
 
 ## App master
 
