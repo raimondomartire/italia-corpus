@@ -22,7 +22,8 @@ prompt-library-revisione-legale/
 │   ├── 07-documentazione-standard-per-fase.md
 │   ├── 08-regole-di-verifica-per-tipologia-di-output.md
 │   ├── 09-modulistica.md
-│   └── 10-mappatura-auditflow.md  ← quale scheda usare in quale fase/sotto-fase di AuditFlow
+│   ├── 10-mappatura-auditflow.md  ← quale scheda usare in quale fase/sotto-fase di AuditFlow
+│   └── 11-playbook-operativo-per-fase.md  ← in che sequenza usarle, cosa attenzionare, fase per fase
 └── prompts/                       ← le 177 schede, un file .md per scheda
     ├── 01-accettazione-incarico-e-rischio/     (19 schede — 1.A–1.E)
     ├── 02-verifiche-periodiche/                (17 schede — 2.A–2.D)
