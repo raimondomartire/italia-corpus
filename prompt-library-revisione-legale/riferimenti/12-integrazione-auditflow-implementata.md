@@ -2,7 +2,7 @@
 
 Questo documento descrive l'integrazione della libreria prompt in **AuditFlow** (repository `raimondomartire/AuditFlow_Dashboard`), realizzata secondo le priorità discusse in `10-mappatura-auditflow.md` e `11-playbook-operativo-per-fase.md`: prima i due bug/lacune concrete che rendevano inaffidabile un avviso sui documenti, poi il pezzo di dato mancante (la libreria come cosa interrogabile dal software), poi i due punti di intervento in UI — Document Manager per i documenti in ingresso, Smart Audit Box per il prompt da eseguire.
 
-**Stato:** codice scritto, verificato (vedi § Verifiche) e pushato sul branch `feat/libreria-prompt-revisione-legale` del repository AuditFlow. **Non ancora mergiato in `main`**: nessun deploy o test end-to-end su dati reali è stato possibile da questa sessione — va rivisto ed eventualmente aperto come pull request da chi ha accesso all'ambiente di test di AuditFlow.
+**Stato:** codice scritto, verificato anche end-to-end con l'app avviata in locale (vedi § Verifiche) e pushato sul branch `feat/libreria-prompt-revisione-legale` del repository AuditFlow. **Non ancora mergiato in `main`**: la verifica è stata fatta su SQLite in locale, non sull'ambiente Postgres/App_Master di sviluppo o produzione — va rivisto ed eventualmente aperto come pull request da chi ha accesso a quell'ambiente.
 
 ## Perché queste priorità
 
@@ -42,9 +42,20 @@ Prima di scrivere codice, la sessione ha esplorato il codice sorgente di AuditFl
 
 ## Verifiche fatte in questa sessione
 
-- **Backend**: `python -m py_compile` su tutti i file toccati; le 177 schede caricate e interrogate con un `FastAPI TestClient` reale (non un mock) — elenco, filtro per fase, filtro testuale, conteggi per fase, lookup per codice carta, tutti con risultati corretti (es. 64 schede in fase "esecuzione", come atteso). L'import completo di `document_manager.py` è stato verificato a parità con il comportamento pre-esistente del file (un errore di risoluzione Pydantic già presente prima delle mie modifiche, dovuto al metodo di import isolato usato per il test, non alle modifiche).
-- **Frontend**: `npm ci` + `npx tsc --noEmit` sull'intero progetto — nessun errore, incluse le nuove aggiunte.
-- **Non verificato**: comportamento a runtime con database reale (Postgres di AuditFlow), test end-to-end nel browser, test automatici (non ne sono stati aggiunti). Questo repository non ha accesso all'ambiente di sviluppo/staging di AuditFlow per un avvio completo dello stack.
+**Statiche**
+- `python -m py_compile` su tutti i file backend toccati.
+- Le 177 schede caricate e interrogate con un `FastAPI TestClient` reale (non un mock) — elenco, filtro per fase, filtro testuale, conteggi per fase, lookup per codice carta, tutti con risultati corretti (es. 64 schede in fase "esecuzione", come atteso).
+- `npm ci` + `npx tsc --noEmit` sull'intero progetto frontend — nessun errore, incluse le nuove aggiunte.
+
+**End-to-end, con l'app realmente avviata** (backend FastAPI + frontend Vite in locale, database SQLite — la modalità di sviluppo prevista da `backend/database.py`, con `MASTER_API_DISABLED=true` per non dipendere da App_Master, non presente in questo ambiente; un solo modulo del backend, `routers/canonical.py`, richiede il pacchetto privato `revai_core` non disponibile qui — sostituito da uno stub locale non incluso nel commit, solo per permettere l'avvio):
+- Creato un incarico e un fascicolo demo con una carta `D-01`; chiamato `GET /api/scheda-prompt/by-cod-carta/D-01` → restituisce la scheda corretta con il testo del prompt integrale.
+- Chiamato `POST /api/dm/segnaposti/from-scheda` sulla stessa carta → crea davvero 2 segnaposti nel fascicolo (uno per documento richiesto dalla scheda), verificati come righe reali nel database.
+- Rifetchato il KPI `documenti_mancanti` della dashboard: **prima** della correzione avrebbe restituito `n: 0` (il bug), **dopo** restituisce correttamente `n: 2` — confermato sui dati appena creati, non solo per lettura del codice.
+- Nel browser (Chromium via Playwright): aperto il Document Manager, verificato che il chip "segnaposti" compare con il conteggio corretto (screenshot), cliccato il chip, verificato che applica il filtro "Segnaposti vuoti" e la griglia si riduce esattamente ai 2 segnaposti creati (screenshot).
+- Nel browser: aperto Smart Audit Box sulla carta `D-01`, verificato che il tab "Prompt AI" compare nella sidebar unificata accanto a Guida/Controlli/Evidenze/Commenti e si monta correttamente (screenshot).
+- **Trovato e corretto durante questa verifica visiva** (non dal solo typecheck): quando la carta non ha ancora un documento DOCX/XLSX/PDF aperto, il pannello "Prompt AI" restava vuoto invece di mostrare un messaggio — a differenza del pannello "Guida" gemello, che in quel caso mostra "Nessuna guida disponibile". Corretto per coerenza (commit separato, stesso branch).
+
+**Non verificato**: il rendering del pannello "Prompt AI" a pieno con una scheda popolata (documenti, prompt, output atteso, verifica) non è stato controllato visivamente, perché richiede una carta con un documento realmente allegato — l'ambiente di test non aveva file caricati né lo storage a oggetti configurato. La correttezza dei dati che il pannello mostrerebbe è comunque verificata (stesso endpoint testato sopra); resta da confermare solo la resa grafica finale. Comportamento su PostgreSQL (produzione) e test automatici: non verificati, restano da fare su un ambiente con accesso a Postgres/App_Master.
 
 ## Limiti e prossimi passi
 
